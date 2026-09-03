@@ -44,7 +44,8 @@ export default {
 			ignoreBinaries: ['docgen', 'docgen:errors', 'playwright', 'vsce', 'ovsx'],
 			entry: ['.agents/evals/*.ts'],
 			// The root workspace ships nothing, so none of its files are part of the production graph
-			project: ['**/*', '!triage/**', '!.github/scripts/**'],
+			// `agent-kit` is a template copied into other repositories, so nothing here imports it
+			project: ['**/*', '!triage/**', '!.github/scripts/**', '!agent-kit/**'],
 		},
 		// Internal tooling package: it publishes nothing, so all of its commands are entry points
 		scripts: {
