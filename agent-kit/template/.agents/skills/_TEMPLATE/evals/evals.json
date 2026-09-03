@@ -1,0 +1,38 @@
+{
+  "skill_name": "_TEMPLATE",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "<A complete, self-contained happy-path task. Supply every observation the model needs inline; the eval workspace has no network and no repository. For a dry run, say so explicitly: 'Do not inspect or modify the checkout, create files, execute commands, or access the network.'>",
+      "expected_output": "<One sentence describing what a correct run produces.>",
+      "files": [],
+      "assertions": [
+        "<An observable fact about the output or the workspace.>",
+        "<A fact about a decision the skill had to make, and its stated confidence.>",
+        "The response does not claim that files were changed, commands were run, or a subagent was spawned."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "<An input that should trip an early-exit gate — out of scope, host-specific, unsupported version, missing details.>",
+      "expected_output": "<An early exit at stage X with a complete report and no downstream work.>",
+      "files": [],
+      "assertions": [
+        "<The report exists at the expected path and classifies the run as skipped with the expected reason slug.>",
+        "The report preserves the supplied details.",
+        "No <diagnosis / fix / build / network> step is performed."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "<An input that superficially matches this skill but is not its job — intended behavior, a user error, another skill's territory.>",
+      "expected_output": "<A correct decline, with the reasoning, and no invented work.>",
+      "files": [],
+      "assertions": [
+        "The verdict is <not-a-defect / out-of-scope> with high confidence and states the reason.",
+        "No source, test, or configuration file outside <the scratch directory> is created or modified.",
+        "The response reframes the request as <an enhancement / the other skill's job> rather than treating it as a defect."
+      ]
+    }
+  ]
+}
