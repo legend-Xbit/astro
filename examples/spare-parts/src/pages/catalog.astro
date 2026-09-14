@@ -12,7 +12,10 @@ const parts = (await getCollection('parts')).sort(
 const categories = [...new Set(parts.map((part) => part.data.category))];
 ---
 
-<BaseLayout title="كتالوج القطع | ورشة الأصل" description="أفضل القطع التي تعتمدها الورشة بعد الفحص والمطابقة.">
+<BaseLayout
+	title="كتالوج القطع | ورشة الأصل"
+	description="أفضل القطع التي تعتمدها الورشة بعد الفحص والمطابقة."
+>
 	<div class="stack gap-20">
 		<main class="wrapper stack gap-8">
 			<Hero
@@ -22,11 +25,13 @@ const categories = [...new Set(parts.map((part) => part.data.category))];
 			/>
 			<div class="filters" role="group" aria-label="تصفية حسب الفئة">
 				<button type="button" data-filter="الكل" aria-pressed="true">الكل</button>
-				{categories.map((category) => (
-					<button type="button" data-filter={category} aria-pressed="false">
-						{category}
-					</button>
-				))}
+				{
+					categories.map((category) => (
+						<button type="button" data-filter={category} aria-pressed="false">
+							{category}
+						</button>
+					))
+				}
 			</div>
 			<Grid variant="offset">
 				{

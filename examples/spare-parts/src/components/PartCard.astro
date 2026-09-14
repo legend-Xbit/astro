@@ -38,7 +38,9 @@ const price = new Intl.NumberFormat('ar-SA', {
 		box-shadow: var(--shadow-sm);
 		text-decoration: none;
 		color: inherit;
-		transition: box-shadow var(--theme-transition), transform var(--theme-transition);
+		transition:
+			box-shadow var(--theme-transition),
+			transform var(--theme-transition);
 	}
 
 	.card:hover {
@@ -83,7 +85,12 @@ const price = new Intl.NumberFormat('ar-SA', {
 
 	.art[data-kind='فرامل'] {
 		background:
-			radial-gradient(circle at 50% 50%, transparent 38%, var(--accent-regular) 40% 48%, transparent 50%),
+			radial-gradient(
+				circle at 50% 50%,
+				transparent 38%,
+				var(--accent-regular) 40% 48%,
+				transparent 50%
+			),
 			linear-gradient(135deg, #3b2a1f, #1b1410);
 	}
 

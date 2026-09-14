@@ -34,7 +34,12 @@
 		var(--gradient-stop-2),
 		var(--gradient-stop-3)
 	);
-	--gradient-accent-orange: linear-gradient(150deg, #e08a2a, var(--accent-regular), var(--accent-dark));
+	--gradient-accent-orange: linear-gradient(
+		150deg,
+		#e08a2a,
+		var(--accent-regular),
+		var(--accent-dark)
+	);
 	--gradient-stroke: linear-gradient(180deg, var(--gray-900), var(--gray-700));
 
 	--shadow-sm:
@@ -92,7 +97,12 @@
 
 	--gradient-stop-1: #9a4a0a;
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-accent-orange: linear-gradient(150deg, #e08a2a, var(--accent-regular), var(--accent-light));
+	--gradient-accent-orange: linear-gradient(
+		150deg,
+		#e08a2a,
+		var(--accent-regular),
+		var(--accent-light)
+	);
 	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 
 	--shadow-sm:
