@@ -1,0 +1,148 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	part: CollectionEntry<'parts'>;
+}
+
+const { data, id } = Astro.props.part;
+const price = new Intl.NumberFormat('ar-SA', {
+	style: 'currency',
+	currency: 'SAR',
+	maximumFractionDigits: 0,
+}).format(data.price);
+---
+
+<a class="card" href={`/catalog/${id}/`} data-category={data.category}>
+	<span class="meta">
+		<span class="category">{data.category}</span>
+		{data.oem && <span class="oem">أصلي</span>}
+	</span>
+	<span class="art" data-kind={data.category} aria-hidden="true"></span>
+	<span class="body">
+		<span class="title">{data.title}</span>
+		<span class="brand">{data.brand} · {data.sku}</span>
+		<span class="price">{price}</span>
+	</span>
+</a>
+
+<style>
+	.card {
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		min-height: 16rem;
+		background: var(--gradient-subtle);
+		border: 1px solid var(--gray-800);
+		border-radius: 1rem;
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
+		text-decoration: none;
+		color: inherit;
+		transition: box-shadow var(--theme-transition), transform var(--theme-transition);
+	}
+
+	.card:hover {
+		box-shadow: var(--shadow-md);
+		transform: translateY(-0.2rem);
+	}
+
+	.meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.85rem 1rem 0;
+		font-size: var(--text-sm);
+		z-index: 1;
+	}
+
+	.category,
+	.oem {
+		border-radius: 999rem;
+		padding: 0.2rem 0.75rem;
+	}
+
+	.category {
+		background: var(--gray-999);
+		color: var(--gray-200);
+	}
+
+	.oem {
+		background: var(--accent-regular);
+		color: var(--accent-text-over);
+	}
+
+	.art {
+		display: block;
+		min-height: 7rem;
+		margin: 0.75rem 1rem;
+		border-radius: 0.75rem;
+		background:
+			radial-gradient(circle at 30% 30%, var(--accent-light), transparent 42%),
+			linear-gradient(135deg, var(--gray-800), var(--gray-900));
+	}
+
+	.art[data-kind='فرامل'] {
+		background:
+			radial-gradient(circle at 50% 50%, transparent 38%, var(--accent-regular) 40% 48%, transparent 50%),
+			linear-gradient(135deg, #3b2a1f, #1b1410);
+	}
+
+	.art[data-kind='محرك'] {
+		background:
+			repeating-linear-gradient(90deg, var(--accent-overlay) 0 8px, transparent 8px 18px),
+			linear-gradient(135deg, #2a2418, #12100c);
+	}
+
+	.art[data-kind='فلاتر'] {
+		background:
+			radial-gradient(circle at 50% 80%, var(--accent-regular), transparent 55%),
+			linear-gradient(180deg, #d4ccbb, #7a6f59);
+	}
+
+	.art[data-kind='كهرباء'] {
+		background:
+			linear-gradient(115deg, transparent 40%, var(--accent-light) 41% 44%, transparent 45%),
+			linear-gradient(135deg, #1c1914, #463f32);
+	}
+
+	.art[data-kind='تعليق'] {
+		background:
+			repeating-linear-gradient(180deg, var(--gray-400) 0 6px, transparent 6px 16px),
+			linear-gradient(135deg, #2e2a22, #12100c);
+	}
+
+	.body {
+		display: grid;
+		gap: 0.25rem;
+		padding: 0 1rem 1.1rem;
+		font-family: var(--font-brand);
+	}
+
+	.title {
+		font-size: var(--text-lg);
+		font-weight: 700;
+		color: var(--gray-0);
+	}
+
+	.brand {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	.price {
+		margin-top: 0.35rem;
+		color: var(--accent-regular);
+		font-weight: 700;
+	}
+
+	@media (min-width: 50em) {
+		.card {
+			min-height: 22rem;
+			border-radius: 1.5rem;
+		}
+
+		.art {
+			min-height: 10rem;
+		}
+	}
+</style>

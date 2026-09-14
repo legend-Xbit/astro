@@ -1,0 +1,35 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+
+interface Props {
+	title?: string | undefined;
+	description?: string | undefined;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="ar" dir="rtl">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+	<body>
+		<div class="stack shop-shell">
+			<Nav />
+			<slot />
+			<Footer />
+		</div>
+	</body>
+</html>
+
+<style>
+	.shop-shell {
+		min-height: 100%;
+		isolation: isolate;
+		background:
+			radial-gradient(1200px 420px at 80% -10%, var(--accent-overlay), transparent 55%),
+			linear-gradient(180deg, var(--gray-900), var(--gray-999) 38%);
+	}
+</style>
