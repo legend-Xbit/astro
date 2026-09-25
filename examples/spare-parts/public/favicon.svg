@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
+	<circle cx="64" cy="64" r="52" stroke-width="8" />
+	<path stroke-linecap="round" stroke-width="8" d="M40 64h48M64 40v48" />
+	<style>
+		circle, path { stroke: #c46a12; }
+		@media (prefers-color-scheme: dark) {
+			circle, path { stroke: #f3c27a; }
+		}
+	</style>
+</svg>

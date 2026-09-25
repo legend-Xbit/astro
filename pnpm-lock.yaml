@@ -613,6 +613,15 @@ importers:
         specifier: ^7.3.1
         version: link:../../packages/astro
 
+  examples/spare-parts:
+    dependencies:
+      '@astrojs/sitemap':
+        specifier: ^3.7.4
+        version: link:../../packages/integrations/sitemap
+      astro:
+        specifier: ^7.3.1
+        version: link:../../packages/astro
+
   examples/ssr:
     dependencies:
       '@astrojs/node':

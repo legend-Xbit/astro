@@ -1,0 +1,114 @@
+---
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_ADDRESS, SITE_EMAIL, SITE_PHONE, SITE_WHATSAPP } from '../consts';
+---
+
+<BaseLayout
+	title="اطلب قطعة | ورشة الأصل"
+	description="أرسل رقم الهيكل والقطعة المطلوبة، ونطابق لكم أفضل خيار متوفر على الرف."
+>
+	<main class="wrapper stack gap-10">
+		<Hero
+			title="اطلب قطعة"
+			tagline="اكتبوا نوع السيارة ورقم الهيكل والقطعة. نرد بتوفر الرف أو بموعد طلب خاص."
+			align="start"
+		/>
+		<div class="layout">
+			<form class="form" action={`mailto:${SITE_EMAIL}`} method="post" enctype="text/plain">
+				<label>
+					الاسم
+					<input type="text" name="name" required />
+				</label>
+				<label>
+					الجوال
+					<input type="tel" name="phone" required />
+				</label>
+				<label>
+					السيارة ورقم الهيكل
+					<input type="text" name="vin" required />
+				</label>
+				<label>
+					القطعة المطلوبة
+					<textarea name="body" rows="5" required></textarea>
+				</label>
+				<button type="submit">أرسل الطلب</button>
+			</form>
+			<aside class="card stack gap-4">
+				<p>
+					<Icon icon="phone" />
+					<a href={`tel:${SITE_PHONE.replaceAll(' ', '')}`}>{SITE_PHONE}</a>
+				</p>
+				<p>
+					<Icon icon="paper-plane-tilt" />
+					<a href={SITE_WHATSAPP}>واتساب الورشة</a>
+				</p>
+				<p>
+					<Icon icon="map-pin" />
+					{SITE_ADDRESS}
+				</p>
+			</aside>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.layout {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.form,
+	.card {
+		border: 1px solid var(--gray-800);
+		border-radius: 1.5rem;
+		background: var(--gradient-subtle);
+		box-shadow: var(--shadow-sm);
+		padding: 1.5rem;
+	}
+
+	.form {
+		display: grid;
+		gap: 1rem;
+	}
+
+	label {
+		display: grid;
+		gap: 0.4rem;
+		color: var(--gray-100);
+		font-weight: 600;
+	}
+
+	input,
+	textarea,
+	button {
+		font: inherit;
+		border-radius: 0.75rem;
+		border: 1px solid var(--gray-800);
+		padding: 0.75rem 1rem;
+		background: var(--gray-999);
+		color: var(--gray-0);
+	}
+
+	button {
+		background: var(--gradient-accent-orange);
+		color: var(--accent-text-over);
+		border: 0;
+		cursor: pointer;
+		font-weight: 700;
+	}
+
+	.card p {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
+	@media (min-width: 50em) {
+		.layout {
+			grid-template-columns: 1.4fr 0.8fr;
+			align-items: start;
+		}
+	}
+</style>

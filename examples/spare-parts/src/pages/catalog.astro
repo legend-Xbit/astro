@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import ContactCTA from '../components/ContactCTA.astro';
+import Grid from '../components/Grid.astro';
+import Hero from '../components/Hero.astro';
+import PartCard from '../components/PartCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const parts = (await getCollection('parts')).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+const categories = [...new Set(parts.map((part) => part.data.category))];
+---
+
+<BaseLayout
+	title="كتالوج القطع | ورشة الأصل"
+	description="أفضل القطع التي تعتمدها الورشة بعد الفحص والمطابقة."
+>
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title="كتالوج الورشة"
+				tagline="قطع مختارة من الرف، لا قائمة مورد كاملة. كل بطاقة هنا مرت على فحص الملاءمة قبل اعتمادها."
+				align="start"
+			/>
+			<div class="filters" role="group" aria-label="تصفية حسب الفئة">
+				<button type="button" data-filter="الكل" aria-pressed="true">الكل</button>
+				{
+					categories.map((category) => (
+						<button type="button" data-filter={category} aria-pressed="false">
+							{category}
+						</button>
+					))
+				}
+			</div>
+			<Grid variant="offset">
+				{
+					parts.map((part) => (
+						<li data-part={part.data.category}>
+							<PartCard part={part} />
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<script>
+	const buttons = document.querySelectorAll<HTMLButtonElement>('.filters button');
+	const items = document.querySelectorAll<HTMLElement>('[data-part]');
+
+	for (const button of buttons) {
+		button.addEventListener('click', () => {
+			const filter = button.dataset.filter ?? 'الكل';
+			for (const other of buttons) {
+				other.setAttribute('aria-pressed', String(other === button));
+			}
+			for (const item of items) {
+				item.hidden = filter !== 'الكل' && item.dataset.part !== filter;
+			}
+		});
+	}
+</script>
+
+<style>
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.filters button {
+		border: 1px solid var(--gray-800);
+		background: var(--gradient-subtle);
+		color: var(--gray-200);
+		border-radius: 999rem;
+		padding: 0.45rem 1rem;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.filters button[aria-pressed='true'] {
+		background: var(--accent-regular);
+		color: var(--accent-text-over);
+		border-color: var(--accent-regular);
+	}
+</style>

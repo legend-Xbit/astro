@@ -1,0 +1,150 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Hero from '../../components/Hero.astro';
+import Icon from '../../components/Icon.astro';
+import Pill from '../../components/Pill.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+	entry: CollectionEntry<'parts'>;
+}
+
+export async function getStaticPaths() {
+	const parts = await getCollection('parts');
+	return parts.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const price = new Intl.NumberFormat('ar-SA', {
+	style: 'currency',
+	currency: 'SAR',
+	maximumFractionDigits: 0,
+}).format(entry.data.price);
+---
+
+<BaseLayout title={`${entry.data.title} | ورشة الأصل`} description={entry.data.description}>
+	<div class="stack gap-20">
+		<div class="stack gap-15">
+			<header>
+				<div class="wrapper stack gap-2">
+					<a class="back-link" href="/catalog/"><Icon icon="arrow-right" /> الكتالوج</a>
+					<Hero title={entry.data.title} align="start">
+						<div class="details">
+							<div class="tags">
+								<Pill>{entry.data.category}</Pill>
+								{entry.data.oem && <Pill>أصلي</Pill>}
+								<Pill>{entry.data.inStock ? 'متوفر' : 'طلب خاص'}</Pill>
+							</div>
+							<p class="description">{entry.data.description}</p>
+						</div>
+					</Hero>
+				</div>
+			</header>
+			<main class="wrapper">
+				<div class="stack gap-10 content">
+					<aside class="spec">
+						<p><strong>السعر:</strong> {price}</p>
+						<p><strong>العلامة:</strong> {entry.data.brand}</p>
+						<p><strong>الرمز:</strong> {entry.data.sku}</p>
+						<p><strong>التوافق:</strong> {entry.data.compatibility.join('، ')}</p>
+					</aside>
+					<div class="copy">
+						<Content />
+					</div>
+				</div>
+			</main>
+		</div>
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	header {
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--gray-800);
+	}
+
+	.back-link {
+		display: none;
+	}
+
+	.details {
+		display: flex;
+		flex-direction: column;
+		padding: 0.5rem;
+		gap: 1.5rem;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.description {
+		font-size: var(--text-lg);
+		max-width: 54ch;
+	}
+
+	.content {
+		max-width: 65ch;
+		margin-inline: auto;
+	}
+
+	.spec {
+		display: grid;
+		gap: 0.5rem;
+		padding: 1.25rem;
+		border: 1px solid var(--gray-800);
+		border-radius: 1.25rem;
+		background: var(--gradient-subtle);
+	}
+
+	.copy > :global(* + *) {
+		margin-top: 1rem;
+	}
+
+	.copy :global(h2),
+	.copy :global(h3) {
+		margin: 1.5rem 0 0.75rem;
+	}
+
+	.copy :global(ul) {
+		padding-inline-start: 1.25rem;
+	}
+
+	.back-link,
+	.copy :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.back-link:hover,
+	.back-link:focus,
+	.copy :global(a:hover),
+	.copy :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	@media (min-width: 50em) {
+		.back-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			align-self: flex-start;
+		}
+
+		.details {
+			flex-direction: row;
+			gap: 2.5rem;
+		}
+	}
+</style>
